@@ -14,7 +14,6 @@ cursor = conn.cursor()
 # A. Euclidean distance calculation between all ( less 2500 m) 'pas_pts', outTable 'pas_pts_ed' if less 2500 m: 'pas_pts' - PatchArrangementScenario Points, i.e. all eligible; 'pas_pts_ed' -  PatchArrangementScenario Points EuclideanDistance
 
 cursor.execute("""CREATE TABLE gd.pas_pts_ed (start int, start_xy text, aim int, aim_xy text, geom geometry, distance float);""")
-
 conn.commit()
 
 cursor.execute("""SELECT ids FROM gd.pas_pts""")
@@ -29,7 +28,6 @@ for x in ids:
     conn.commit()
 
 cursor.execute("""ALTER TABLE gd.pas_pts_ed SET (autovacuum_enabled = false, toast.autovacuum_enabled = false);""")
-
 conn.commit()
 
 # B. Creation random PAS
@@ -38,12 +36,11 @@ conn.commit()
 
 pas = 10 # Number of PAS: 'pas' PatchArrangementScenarios
 
-mpp_p = 0.1 # Proportion of 'gd.pas_pts' eligible as MPP: 'mpp' - MetaPopulationPatches; 'p' - Proportion
+mpp_p = 0.2 # Proportion of 'gd.pas_pts' eligible as MPP: 'mpp' - MetaPopulationPatches; 'p' - Proportion
 
 #
 
 cursor.execute("""CREATE SCHEMA IF NOT EXISTS pas;""")
-
 conn.commit()
 
 # PatchArrangementScenario Points: IDS | XY-Coordinates
@@ -75,7 +72,7 @@ for x in range(pas): # Iterate over PAS
 
     cursor.execute("""ALTER TABLE pas.pas"""+str(x)+""" ADD column ids bigserial;""")
 
-    cursor.execute("""ALTER TABLE pas.pas"""+str(x)+"""_ SET (autovacuum_enabled = false, toast.autovacuum_enabled = false);""")
+    cursor.execute("""ALTER TABLE pas.pas"""+str(x)+""" SET (autovacuum_enabled = false, toast.autovacuum_enabled = false);""")
 
     conn.commit()
 
@@ -88,9 +85,9 @@ for x in range(pas): # Iterate over PAS
 
     cursor.execute("""CREATE TABLE pas.pas"""+str(x)+"""_ed AS SELECT * FROM gd.pas_pts_ed WHERE start IN ("""+str(ids)[1:-1]+""") AND aim IN ("""+str(ids)[1:-1]+""");""")
 
-    cursor.execute("""UPDATE pas.pas"""+str(x)+"""_ed SET start = (SELECT pas.pas"""+str(x)+""".ids FROM pas.pas"""+str(x)+""", pas.pas"""+str(x)+"""_ed WHERE pas.pas"""+str(x)+"""_ed.start = pas.pas"""+str(x)+""".ids_org);""")
+    cursor.execute("""UPDATE pas.pas"""+str(x)+"""_ed a SET start = ids FROM pas.pas"""+str(x)+""" b WHERE a.start = b.ids_org;""")
 
-    cursor.execute("""UPDATE pas.pas"""+str(x)+"""_ed SET aim = (SELECT pas.pas"""+str(x)+""".ids FROM pas.pas"""+str(x)+""", pas.pas"""+str(x)+"""_ed WHERE pas.pas"""+str(x)+"""_ed.aim = pas.pas"""+str(x)+""".ids_org);""")
+    cursor.execute("""UPDATE pas.pas"""+str(x)+"""_ed a SET aim = ids FROM pas.pas"""+str(x)+""" b WHERE a.aim = b.ids_org;""")
 
     # see https://www.postgresql.org/docs/11/runtime-config-autovacuum.html
 
