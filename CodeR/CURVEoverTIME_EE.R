@@ -9,16 +9,16 @@ library(reshape)
 # library(Hmisc)
 library(ggforce)
 require(tidyr)
-require(ggplot2)
 require(dplyr)
 require(magrittr)
 library(ggrepel)
 
-library(ggpubr)
+#library(ggpubr)
 library(cowplot)
 library(gridExtra)
 
 library(scales)
+library(reader)
 
 library(plotly)
 
@@ -27,7 +27,7 @@ library(dplyr)
 library(extrafont)
 # font_import()
 
-library(ggpattern)
+#library(ggpattern)
 
 options(scipen=1)
 
@@ -39,7 +39,7 @@ theme_set(theme_classic())
 
 ###
 
-load('/home/lucas/Desktop/PhD/STRESSOR/Documents/PUB_3rd/R_DATA/ES.Rda')
+load('/home/lucas/Desktop/PhD/STRESSOR/Documents/PUB_3rd/R_DATA/ES_new.Rda')
 
 str(ES)
 
@@ -89,7 +89,8 @@ DF_ID_statS = unite(DF_ID_statS, unique_id, c(`LS`, `DS`, `AF`), sep =  " ", rem
 
 DF_ID_statS$`LS` = factor(DF_ID_statS$`LS`)
 DF_ID_statS$`LS` = factor(DF_ID_statS$`LS`, levels(DF_ID_statS$`LS`)[c(5,3,1,2,4)])
-levels(DF_ID_statS$`LS`) = c('stepwise \u2191', 'ramped \u2197', 'consistent \u2192', 'ramped \U2198', 'stepwise \U2193')
+#levels(DF_ID_statS$`LS`) = c('stepwise \u2191', 'ramped \u2197', 'static \u2192', 'ramped \U2198', 'stepwise \U2193')
+levels(DF_ID_statS$`LS`) = c('\u2191', '\u2197', '\u2192', '\U2198', '\U2193')
 
 DF_ID_statS$`DS` = factor(DF_ID_statS$`DS`)
 DF_ID_statS$`DS` = factor(DF_ID_statS$`DS`, levels(DF_ID_statS$`DS`)[c(4,2,3,1)])
@@ -105,36 +106,36 @@ pLoT =
 	ggplot(data = DF_ID_statS, aes(x = as.numeric(variable)-1, y = mean, group = `unique_id`)) +
 	geom_hline(yintercept = 0, size = 0.25, linetype = 3, color = 'grey') +
 	geom_vline(xintercept = 37.5, size = 0.25, linetype = 3, color = 'grey') +
-	geom_ribbon(data = DF_ID_statS, aes(ymin = CI_lower, ymax = CI_upper, fill = `AF`), alpha = 0.25, show.legend = FALSE) +
+	#geom_ribbon(data = DF_ID_statS, aes(ymin = CI_lower, ymax = CI_upper, fill = `AF`), alpha = 0.25, show.legend = FALSE) +
 	scale_fill_manual(values = rev(c('yellowgreen','orange','red'))) +
-	geom_line(size = 0.25, alpha = 1, aes(color = `AF`), data = DF_ID_statS[which(DF_ID_statS$DS!="no"  & DF_ID_statS$LS!="consistent \u2192" & DF_ID_statS$AF!="no"), ]) +
-	geom_line(size = 0.25, alpha = 1, aes(color = `AF`), data = DF_ID_statS[which(DF_ID_statS$DS!="no"  & DF_ID_statS$LS=="consistent \u2192" & DF_ID_statS$AF!="no"), ]) +
-	geom_line(size = 0.25, alpha = 1, aes(color = `AF`), data = DF_ID_statS[which(DF_ID_statS$DS!="no"  & DF_ID_statS$LS!="consistent \u2192" & DF_ID_statS$AF=="no"), ]) +
+	geom_line(size = 0.25, alpha = 1, aes(color = `AF`), data = DF_ID_statS[which(DF_ID_statS$DS!="no"  & DF_ID_statS$LS!="static \u2192" & DF_ID_statS$AF!="no"), ]) +
+	geom_line(size = 0.25, alpha = 1, aes(color = `AF`), data = DF_ID_statS[which(DF_ID_statS$DS!="no"  & DF_ID_statS$LS=="static \u2192" & DF_ID_statS$AF!="no"), ]) +
+	geom_line(size = 0.25, alpha = 1, aes(color = `AF`), data = DF_ID_statS[which(DF_ID_statS$DS!="no"  & DF_ID_statS$LS!="static \u2192" & DF_ID_statS$AF=="no"), ]) +
 	scale_color_manual(values = c('yellowgreen','orange','red')) +
 	geom_line(size = 0.25, alpha = 1, linetype = 1, data = DF_ID_statS[which(DF_ID_statS$DS=="no"),]) +
-	geom_line(size = 0.25, alpha = 1, aes(color = `AF`), linetype = 1, color = 'red', data = DF_ID_statS[which(DF_ID_statS$DS!="no" & DF_ID_statS$LS=="consistent \u2192" & DF_ID_statS$AF=="no"),]) +
+	geom_line(size = 0.25, alpha = 1, aes(color = `AF`), linetype = 1, color = 'red', data = DF_ID_statS[which(DF_ID_statS$DS!="no" & DF_ID_statS$LS=="static \u2192" & DF_ID_statS$AF=="no"),]) +
 	labs(color = "Adaptation", fill = "Adaptation") +
 	panel_border(colour = "black", linetype = 1, remove = FALSE) +
 	#scale_y_reverse(expression(atop(E[s(SA)]), ''), breaks = c(-1, 0, 1), limits = c(1, -1), sec.axis = sec_axis(~ . + 10, name = 'Land use Scenario')) +
-	scale_y_reverse('Joint Effect', breaks = c(-1, 0, 1), limits = c(1, -1), sec.axis = sec_axis(~ . + 10, name = 'Land use Scenario')) +
-	scale_x_continuous("Time Step", breaks = seq(0,75,25), sec.axis = sec_axis(~ . + 10, name = 'Climatic event Scenario')) +
-	theme(axis.text.x = element_text(size = 8), axis.text.y = element_text(size = 8), axis.title.x = element_text(size = 12), axis.title.y = element_text(size = 12),  axis.ticks.x = element_line(size=0.5), axis.ticks.y = element_line(size=0.5), axis.text.x.top = element_blank(), axis.ticks.x.top = element_blank(), axis.text.y.right = element_blank(), axis.ticks.y.right = element_blank(), axis.line.x.top = element_blank(), axis.line.y.right = element_blank(), legend.text = element_text(size = 8), legend.title = element_text(size = 12), legend.position = "bottom",  plot.margin = unit(c(0.125, 0.125, 0.125, 0.125), "in"), aspect.ratio = 1/1.5, panel.border = element_blank())
+	scale_y_continuous('Joint Effect\n\n', breaks = c(1, 0, -1), limits = c(1, -1), sec.axis = sec_axis(~ . + 10, name = 'Climatic Event Scenario\n'), trans = "reverse") +
+	scale_x_continuous("\nTime", breaks = seq(0,50,50), sec.axis = sec_axis(~ . + 10, name = 'Land Use Scenario\n')) +
+	theme(axis.text.x = element_text(size = 10),  axis.text.y = element_text(size = 10),  axis.title.x = element_text(size = 12, lineheight = .25),  axis.title.y.right = element_text(size=12, lineheight = .25), axis.title.y = element_text(size = 12, lineheight = .25), axis.title.x.top = element_text(size=12, lineheight = .25),  axis.ticks.x = element_line(size=0.5), axis.ticks.y = element_line(size=0.5), axis.text.x.top = element_blank(), axis.ticks.x.top = element_blank(), axis.text.y.right = element_blank(), axis.ticks.y.right = element_blank(), axis.line.x.top = element_blank(), axis.line.y.right = element_blank(), legend.title = element_text(size = 10), legend.position = "bottom",  plot.margin = unit(c(0.125, 0.125, 0.125, 0.125), "in"), aspect.ratio = 1/1.5, panel.border = element_blank())
 
 Ed =  parse(text=paste("bold(E[d])"))
 Ec =  parse(text=paste("bold(E[c])"))
-B =  parse(text=paste("bold(Base)"))
+B =  parse(text=paste("Base"))
 
 pLoT2 =
 	pLoT +
     #stat_smooth(method="lm", se = FALSE, colour = 'darkgrey', size = 0.25, lwd = 0.25) +
-	#geom_rect(data = subset(DF_ID_statS, LS %in% c("consistent \u2192") & DS %in% c("no")), fill = NA, colour = "red", xmin = -Inf,xmax = Inf, ymin = -Inf, ymax = Inf, size = 1.25) +
-	facet_grid(LS ~ DS) +
-	geom_text(label = B, data = subset(DF_ID_statS, DS == "no" & LS == "consistent \u2192" & variable == 't 1'), x=67.5, y=0.75, size=2.5, color='red') +
-	geom_text(label = Ed, data = subset(DF_ID_statS, DS != "no" & LS == "consistent \u2192" & variable == 't 1'), x=67.5, y=0.75, size=2.5) +
-	geom_text(label = Ec, data = subset(DF_ID_statS, DS == "no" & LS != "consistent \u2192" & variable == 't 1'), x=67.5, y=0.75, size=2.5) +
-	#geom_rect(data = subset(DF_ID_statS, LS == "consistent \u2192" & variable == 't 1'), xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf, fill=NA, color = 'black', linetype = 1) +
+	#geom_rect(data = subset(DF_ID_statS, LS %in% c("static \u2192") & DS %in% c("no")), fill = NA, colour = "red", xmin = -Inf,xmax = Inf, ymin = -Inf, ymax = Inf, size = 1.25) +
+	facet_grid(DS ~ LS) +
+	#geom_text(label = B, data = subset(DF_ID_statS, DS == "no" & LS == "static \u2192" & variable == 't 1'), x=67.5, y=0.75, size=3.75, color='red') +
+	#geom_text(label = Ed, data = subset(DF_ID_statS, DS != "no" & LS == "static \u2192" & variable == 't 1'), x=67.5, y=0.75, size=3.75) +
+	#geom_text(label = Ec, data = subset(DF_ID_statS, DS == "no" & LS != "static \u2192" & variable == 't 1'), x=67.5, y=0.75, size=3.75) +
+	#geom_rect(data = subset(DF_ID_statS, LS == "static \u2192" & variable == 't 1'), xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf, fill=NA, color = 'black', linetype = 1) +
 	#geom_rect(data = subset(DF_ID_statS, DS == "no" & variable == 't 1'), xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf, fill=NA, color = 'black', linetype = 1) +
-	theme(strip.text = element_text(size=8), strip.background = element_blank(), panel.border = element_rect(colour = "grey90", fill = NA))
+	theme(strip.text = element_text(size=10), strip.background = element_blank(), panel.border = element_rect(colour = NA, fill = NA))
 
 
-ggsave(filename=paste("/home/lucas/Desktop/PhD/STRESSOR/Documents/PUB_3rd/R_GRAPHs/GridEE.jpg", sep=""), pLoT2, width = 20, height = 20, units = "cm")
+ggsave(filename=paste("/home/lucas/Desktop/PhD/STRESSOR/Documents/PUB_3rd/R_GRAPHs/GridEE_new123.jpg", sep=""), pLoT2, width = 20, height = 15, units = "cm")

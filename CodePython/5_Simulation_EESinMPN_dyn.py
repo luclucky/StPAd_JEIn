@@ -60,7 +60,7 @@ L_ri = list(np.linspace(0.5,1.0,25)) # ramped increase intensive Agriculture
 L_rd = list(np.linspace(0.5,0.0,25))
 
 L_si = [0.5] * 12 + [0.75] + [1.0] * 12
-L_sd = [0.5] * 12 + [0.25] + [0.0] * 25
+L_sd = [0.5] * 12 + [0.25] + [0.0] * 12
 
 L_S = [L_c, L_ri, L_rd, L_si, L_sd]
 
@@ -74,11 +74,13 @@ mor = list(np.round(np.logspace(np.log(0.1), np.log(10), 100, base=np.exp(1)), 0
 
 D_S.append([list(mor), [[0] * 100]])
 
+# import matplotlib.pyplot as plt
+
 # plt.bar(list(range(1,101)), height = mor, color='black', width=-1)
 # plt.axis('off')
 
-# col = cm.rainbow(np.linspace(0, 1, 2 * 100))[100:]
-# fig, ax = plt.subplots(1, 1)
+col = plt.cm.rainbow(np.linspace(0, 1, 2 * 100))[100:]
+fig, ax = plt.subplots(1, 1)
 
 for a in skw:
 
@@ -88,16 +90,16 @@ for a in skw:
     cdf = skewnorm.cdf(x, a)
     pdf = skewnorm.pdf(x, a)
 
-    # p = []
-    # for yy in range(len(cdf)):
-    #     if yy > 0:
-    #         p.append(cdf[yy] - cdf[yy-1])
-    #     else:
-    #         p.append(cdf[yy])
-    #
-    # ax.plot(range(0,100), p, 'r-', lw=25, color=c)
-    # plt.ylim(0,0.035)
-    # plt.axis('off')
+    p = []
+    for yy in range(len(cdf)):
+        if yy > 0:
+            p.append(cdf[yy] - cdf[yy-1])
+        else:
+            p.append(cdf[yy])
+
+    ax.plot(range(0,100), p, 'r-', lw=5, color=col[0])
+    plt.ylim(0,0.035)
+    plt.axis('off')
 
     D_S.append([list(mor), list(cdf)])
 #

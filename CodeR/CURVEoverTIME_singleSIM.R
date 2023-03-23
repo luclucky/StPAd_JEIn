@@ -14,7 +14,7 @@ require(dplyr)
 require(magrittr)
 library(ggrepel)
 
-library(ggpubr)
+#library(ggpubr)
 library(cowplot)
 library(gridExtra)
 
@@ -56,7 +56,7 @@ Dh = dbGetQuery(con, paste("SELECT * FROM ds.", S,";", sep = ""))
 
 ###
 
-load('/home/lucas/Desktop/PhD/STRESSOR/Documents/PUB_3rd/R_DATA/resDF_0255.Rda')
+load('/home/lucas/Desktop/PhD/STRESSOR/Documents/PUB_3rd/R_DATA/resDF_02510_2.Rda')
 
 str(resDF)
 
@@ -70,7 +70,7 @@ LS = c('lc', 'lrd', 'lri', 'lsd', 'lsi')
 DS = c('dl', 'dm', 'dh')
 
 PASs = 10
-REPs = 5
+REPs = 10
 
 T = seq(1, 75)
 
@@ -102,7 +102,7 @@ for (L in LS){
 
 				E[E == 0] = NA
 
-				Es = data_frame(T, E)
+				Es = tibble(T, E)
 
 				pL =
 					ggplot(DF, aes(x = as.numeric(variable)-2, y = value)) +
@@ -112,16 +112,15 @@ for (L in LS){
 					scale_color_manual(values = c('yellowgreen','orange','red')) +
 					geom_linerange(data= Es, aes(x = T, y = E, ymax = 7500, ymin = 7500-E*75), size = 0.25, color = 'darkgrey') +
 					geom_point(data= Es, aes(x = T, y = 7500-E*75), size = 0.25) +
-					scale_x_continuous("\n Time Step", breaks = seq(0,75,25)) +
-					scale_y_continuous("Meta-population size \n", breaks = c(0, 2500, 5000, 7500), limits = c(0, 7500), sec.axis = sec_axis(~ . * 1/75, name = 'Mortality \n', breaks = c(0, 50, 100), labels = c('100', '50', '0'))) +
+					scale_x_continuous("Time", breaks = seq(0,75,25)) +
+					scale_y_continuous(expression(italic(N)), breaks = c(0, 2500, 5000, 7500), limits = c(0, 7500), sec.axis = sec_axis(~ . * 1/75, name = 'Event Mortality', breaks = c(0, 50, 100), labels = c('100', '50', '0'))) +
 					geom_vline(xintercept = 25, size = 0.25, linetype = 3, color = 'grey') +
 					geom_vline(xintercept = 50, size = 0.25, linetype = 3, color = 'grey') +
-					theme(axis.text.x = element_text(size = 8), axis.text.y =element_text(size = 8), axis.title.x = element_text(size = 12), axis.title.y = element_text(size = 12),  axis.ticks.x = element_line(size=1), axis.ticks.y = element_line(size=1), legend.text = element_text(size = 8), legend.title = element_text(size = 12), legend.justification = "bottom", plot.margin = unit(c(0.125, 0.125, 0.125, 0.125), "in"), aspect.ratio = 1/1.5) +
-				  guides(color = guide_legend(label.position = "left"))
+					theme(axis.text.x = element_text(size = 10), axis.text.y =element_text(size = 10), axis.title.x = element_text(size = 12), axis.title.y = element_text(size = 12),  axis.ticks.x = element_line(size=1), axis.ticks.y = element_line(size=1), legend.justification = "bottom", plot.margin = unit(c(0.125, 0.125, 0.125, 0.125), "in"), aspect.ratio = 1/1.5) + guides(color = guide_legend(label.position = "left"))
 
 				pL = pL + theme(legend.position="bottom")
 
-				ggsave(filename=paste("/home/lucas/Desktop/PhD/STRESSOR/Documents/PUB_3rd/R_GRAPHs/RUNs/",L,D,P-1,R-1,".jpg", sep=""), pL, width = 30, height = 20, units = "cm")
+				ggsave(filename=paste("/home/lucas/Desktop/PhD/STRESSOR/Documents/PUB_3rd/R_GRAPHs/SimulationsSOLO/",L,D,P-1,R-1,".jpg", sep=""), pL, width = 30, height = 20, units = "cm")
 
 			}
 		}
