@@ -8,7 +8,7 @@ import psycopg2
 
 # PostgreSQL DB-Connection
 
-conn = psycopg2.connect("host=??? port=??? dbname=??? user=??? password=???")
+conn = psycopg2.connect("host=??? port=??? dbname=??? user=??? password=??? ")
 cursor = conn.cursor()
 
 # A. Euclidean distance calculation between all ( less 2500 m) 'pas_pts', outTable 'pas_pts_ed' if less 2500 m: 'pas_pts' - PatchArrangementScenario Points, i.e. all eligible; 'pas_pts_ed' -  PatchArrangementScenario Points EuclideanDistance
