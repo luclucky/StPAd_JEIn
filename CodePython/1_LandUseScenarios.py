@@ -17,7 +17,7 @@ from nlmpy import nlmpy
 
 # PostgreSQL DB-Connection
 
-conn = psycopg2.connect("host=139.14.20.252 port=5432 dbname=DB_PhD_03 user=streib_lucas password=1gis!gis1")
+conn = psycopg2.connect("host=??? port=??? dbname=??? user=??? password=???")
 cursor = conn.cursor()
 
 # http://www.postgis.net/docs/manual-dev/postgis_gdal_enabled_drivers.html
@@ -131,10 +131,10 @@ subprocess.call(cmds, shell=True)
 os.environ['PGPASSWORD'] = '???'
 os.environ['PGPASSWORD'] = '1gis!gis1'
 
-cmds = 'raster2pgsql -s 25832 -I -C -M "' + dst_filename + '" -F lus.osm | psql -d DB_PhD_03 -h 139.14.20.252 -U streib_lucas '
+cmds = 'raster2pgsql -s 25832 -I -C -M "' + dst_filename + '" -F lus.osm | psql -d =??? -h =??? -U =??? '
 subprocess.call(cmds, shell=True)
 
-cmds = 'raster2pgsql -s 25832 -I -C -M "' + dst_filename[:-5] + '_rs.tif" -F lus.osm_rs | psql -d DB_PhD_03 -h 139.14.20.252 -U streib_lucas '
+cmds = 'raster2pgsql -s 25832 -I -C -M "' + dst_filename[:-5] + '_rs.tif" -F lus.osm_rs | psql -d =??? -h =??? -U =??? '
 subprocess.call(cmds, shell=True)
 
 cursor.close()
