@@ -9,7 +9,7 @@ library(stringr)
 
 drv = dbDriver("PostgreSQL")
 
-con = dbConnect(drv, dbname = "DB_PhD_03", host = "139.14.20.252", port = 5432, user = "streib_lucas", password = "1gis!gis1")
+con = dbConnect(drv, dbname = ???, host = ???, port = ???, user = ???, password = ???)
 
 LS = c('Lc', 'Lrd', 'Lri', 'Lsd', 'Lsi')
 DS = c('Dn','Dl', 'Dm', 'Dh')
@@ -74,6 +74,6 @@ for (SCHEMA in SCHEMAs){
 
   }
 
-save(resDF, file = paste0('/home/lucas/Desktop/PhD/STRESSOR/Documents/PUB_3rd/R_DATA/resDF_02510.Rda'))
+save(resDF, file = paste0('.../R_DATA/resDF_02510.Rda'))
 
 
