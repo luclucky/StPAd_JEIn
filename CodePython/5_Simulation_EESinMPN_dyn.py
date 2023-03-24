@@ -102,48 +102,47 @@ for a in skw:
     plt.axis('off')
 
     D_S.append([list(mor), list(cdf)])
-#
-# conn = psycopg2.connect("host=139.14.20.252 port=5432 dbname=DB_PhD_03 user=streib_lucas password=1gis!gis1")
-# cursor = conn.cursor()
-#
-# cursor.execute("""CREATE SCHEMA IF NOT EXISTS ds;""")
-# conn.commit()
-#
-# DS_name = ['Dn','Dl', 'Dm', 'Dh']
-#
-# cloNAM = ['rep INT']
-# [cloNAM.append('ts_'+str(x)+' FLOAT') for x in range (75)]
-# cloNAM = str(cloNAM)[1:-1].replace("'", '')
-#
-# cloS = ['rep']
-# [cloS.append('ts_'+str(x)) for x in range (75)]
-# cloS = str(cloS)[1:-1].replace("'", '')
-#
-# for x in range(len(D_S)):
-#
-#     cursor.execute("""CREATE TABLE IF NOT EXISTS ds.""" + str(DS_name[x]) + """ (""" + str(cloNAM) + """);""")
-#     conn.commit()
-#
-#     for xx in range(50):
-#
-#         roW = [xx]
-#
-#         for xxx in range(75):
-#
-#             D_S[x][1]
-#
-#             if DS_name[x] == 'Dn':
-#
-#                 roW.append(0.0)
-#
-#             else:
-#
-#                 roW.append(random.choices(D_S[x][0], cum_weights=D_S[x][1])[0])
-#
-#         cursor.execute("""INSERT INTO ds.""" + str(DS_name[x]) + """(""" + str(cloS) + """) VALUES (""" + str(roW)[1:-1] + """)""")
-#
-#     conn.commit()
 
+conn = psycopg2.connect("host=??? port=??? dbname=??? user=??? password=???")
+cursor = conn.cursor()
+
+cursor.execute("""CREATE SCHEMA IF NOT EXISTS ds;""")
+conn.commit()
+
+DS_name = ['Dn','Dl', 'Dm', 'Dh']
+
+cloNAM = ['rep INT']
+[cloNAM.append('ts_'+str(x)+' FLOAT') for x in range (75)]
+cloNAM = str(cloNAM)[1:-1].replace("'", '')
+
+cloS = ['rep']
+[cloS.append('ts_'+str(x)) for x in range (75)]
+cloS = str(cloS)[1:-1].replace("'", '')
+
+for x in range(len(D_S)):
+
+    cursor.execute("""CREATE TABLE IF NOT EXISTS ds.""" + str(DS_name[x]) + """ (""" + str(cloNAM) + """);""")
+    conn.commit()
+
+    for xx in range(50):
+
+        roW = [xx]
+
+        for xxx in range(75):
+
+            D_S[x][1]
+
+            if DS_name[x] == 'Dn':
+
+                roW.append(0.0)
+
+            else:
+
+                roW.append(random.choices(D_S[x][0], cum_weights=D_S[x][1])[0])
+
+        cursor.execute("""INSERT INTO ds.""" + str(DS_name[x]) + """(""" + str(cloS) + """) VALUES (""" + str(roW)[1:-1] + """)""")
+
+    conn.commit()
 
 # A_F - Evolutionary adaptation
 
@@ -204,7 +203,7 @@ def dispMODEL(C):
 
     # PostgreSQL DB-Connection
 
-    conn = psycopg2.connect("host=139.14.20.252 port=5432 dbname=DB_PhD_03 user=streib_lucas password=1gis!gis1")
+    conn = psycopg2.connect("host=??? port=??? dbname=??? user=??? password=???")
     cursor = conn.cursor()
 
     oS = str('sim_2_'+C[3]).lower()
