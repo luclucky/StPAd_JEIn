@@ -5,7 +5,7 @@
 
 # 'resDF': DataFrame covering all Simulation Results
 
-load('/home/lucas/Desktop/PhD/STRESSOR/Documents/PUB_3rd/R_DATA/resDF_0255.Rda')
+load('.../R_DATA/resDF_0255.Rda')
 resDF[is.na(resDF)] = 0
 
 head(resDF)
@@ -21,14 +21,14 @@ ES = resDF
 ES[,6:80] = 1 - mapply('/', ES[,6:80], as.numeric(BL[,6:80]))
 ES = subset(ES, select = -c(PAS, REP))
 
-save(ES, file = paste0('/home/lucas/Desktop/PhD/STRESSOR/Documents/PUB_3rd/R_DATA/ES.Rda'))
+save(ES, file = paste0('.../R_DATA/ES.Rda'))
 
 ES = aggregate(. ~ LS+DS+AF, data=resDF, mean)
 
 ES[,6:80] = 1 - mapply('/', ES[,6:80], as.numeric(BL[,6:80]))
 ES = subset(ES, select = -c(PAS, REP))
 
-save(ES, file = paste0('/home/lucas/Desktop/PhD/STRESSOR/Documents/PUB_3rd/R_DATA/ES_mean.Rda'))
+save(ES, file = paste0('.../R_DATA/ES_mean.Rda'))
 
 # B. Computation Effect Addition EA
 
@@ -71,7 +71,7 @@ for (L in LS){
 
 # Store 'LUSEES' as 'EA.Rda'-File
 
-save(EA, file = paste0('/home/lucas/Desktop/PhD/STRESSOR/Documents/PUB_3rd/R_DATA/EA_eA.Rda'))
+save(EA, file = paste0('.../R_DATA/EA_eA.Rda'))
 
 ##
 
@@ -114,6 +114,6 @@ for (L in LS){
 
 # Store 'LUSEES' as 'EA.Rda'-File
 
-save(EA, file = paste0('/home/lucas/Desktop/PhD/STRESSOR/Documents/PUB_3rd/R_DATA/EA_iA.Rda'))
+save(EA, file = paste0('.../R_DATA/EA_iA.Rda'))
 
 
