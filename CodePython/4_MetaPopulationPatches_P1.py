@@ -11,7 +11,7 @@ import pandas as pd
 
 # PostgreSQL DB-Connection
 
-conn = psycopg2.connect("host=139.14.20.252 port=5432 dbname=DB_PhD_03 user=streib_lucas password=1gis!gis1")
+conn = psycopg2.connect("host=??? port=??? dbname=??? user=??? password=???")
 cursor = conn.cursor()
 
 #
