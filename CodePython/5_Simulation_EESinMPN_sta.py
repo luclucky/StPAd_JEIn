@@ -81,13 +81,13 @@ ts = 210 # TimeSpan
 
 ## ExtremeEvents
 
-# EPh = [round(0.05+(x/249*0.45), 3) for x in range(250)] # Extreme event Propability - high scenario
+
 EPh = [round(0.05+(x/99*0.45), 3) for x in range(100)] # Extreme event Propability - high scenario
 EPh.extend([0.5] * 100)
-# EPm = [round(0.05+(x/249*0.2), 3) for x in range(250)] # Extreme event Propability - medium scenario
+
 EPm = [round(0.05+(x/99*0.25), 3) for x in range(100)] # Extreme event Propability - medium scenario
 EPm.extend([0.25] * 100)
-# EPb = [0.05] * 250 # Extreme event Propability - baseline scenario
+
 EPb = [0.05] * 200 # Extreme event Propability - baseline scenario
 # # EPn = [0.0] * 250 # Extreme event Propability - no
 
@@ -95,15 +95,13 @@ dynLIST_statLIST(EPh)
 dynLIST_statLIST(EPm)
 dynLIST_statLIST(EPb)
 
-# EMh = [round(25.0+(x/249*50.0), 3) for x in range(250)] # Extreme event Mortality - high scenario
 EMh = [round(25.0+(x/99*50.0), 3) for x in range(100)] # Extreme event Mortality - high scenario
 EMh.extend([75.0] * 100)
-# EMm = [round(25.0+(x/249*25.0), 3) for x in range(250)] # Extreme event Mortality - medium scenario
+
 EMm = [round(25.0+(x/99*25.0), 3) for x in range(100)] # Extreme event Mortality - high scenario
 EMm.extend([50.0] * 100)
-# EMb = [25.0] * 250 # Extreme event Mortality - baseline scenario
+
 EMb = [25.0] * 200 # Extreme event Mortality - baseline scenario
-# # EMn = [0.0] * 250 # Extreme event Mortality - no
 
 EP = [EPh, EPm, EPb]
 EM = [EMh, EMm, EMb]
@@ -160,7 +158,7 @@ def dispMODEL(EL):
 
     # PostgreSQL DB-Connection
 
-    conn = psycopg2.connect("host=139.14.20.252 port=5432 dbname=DB_PhD_03 user=streib_lucas password=1gis!gis1")
+    conn = psycopg2.connect("host=??? port=??? dbname=??? user=??? password=???")
     cursor = conn.cursor()
 
     oS = str('sim_sta_200__'+EL[2])
