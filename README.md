@@ -3,7 +3,7 @@
 
 # THE SPATIOTEMPORAL PROFILE AND ADAPTATION DETERMINE THE JOINT EFFECTS AND INTERACTIONS OF MULTIPLE STRESSORS
 
-Lucas Streib¹*, Marius Kloft², Ralf B. Schäfer¹
+Lucas Streib¹*, Jurg W. Spaak¹, Marius Kloft², Ralf B. Schäfer¹
 
 ¹ iES - Institute for Environmental Sciences,  RPTU Kaiserslautern-Landau, 76829 Landau i. d. Pfalz, Germany\
 ² Machine Learning Group, RPTU Kaiserslautern-Landau, 67653 Kaiserslautern, Germany\
